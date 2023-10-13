@@ -1,22 +1,16 @@
-import axios from "axios";
 import { ICar } from "../interface";
 
-const instance = axios.create({
-  baseURL: "https://wswork.com.br/",
-  timeout: 5000,
-  headers: {
-    "X-Custom-Header": "foobar",
-    "Access-Control-Allow-Origin": "*",
-    Accept: "*/*",
-    "Accept-Encoding": "gzip, deflate, br",
-    Connection: "keep-alive",
-  },
-});
+
+const baseURL = "https://wswork.com.br/"
 
 const fetchCarsData = async (): Promise<ICar[]> => {
   try {
-    const response = await instance.get("cars.json");
-    return response.data;
+    const response = await fetch(`${baseURL}cars.json`, { mode: "no-cors", headers: { "Content-Type": "application/json", "accept-ranges": "bytes" } });
+    // if (!response.ok) {
+    //   throw new Error("Network response was not ok");
+    // }
+    const jsonResponse = await response.json()
+    return jsonResponse
   } catch (error) {
     throw error;
   }
@@ -24,8 +18,9 @@ const fetchCarsData = async (): Promise<ICar[]> => {
 
 const fetchCarsByBrandData = async (): Promise<ICar[]> => {
   try {
-    const response = await instance.get("cars_by_brand.json");
-    return response.data;
+    const response = await fetch(`${baseURL}cars_by_brand.json`, { mode: "no-cors" });
+    const jsonResponse = await response.json()
+    return jsonResponse
   } catch (error) {
     throw error;
   }
@@ -33,13 +28,16 @@ const fetchCarsByBrandData = async (): Promise<ICar[]> => {
 
 export const carsApi = async () => {
   try {
-    const [carsData, carsByBrandData] = await axios.all([
-      fetchCarsData(),
-      fetchCarsByBrandData(),
-    ]);
-    const carsList = [...carsData, ...carsByBrandData];
+    // const [carsData, carsByBrandData] = await Promise.all([
+    //   fetchCarsData(),
+    //   fetchCarsByBrandData(),
+    // ]);
+    // const carsList = [...carsData, ...carsByBrandData];
+    // return carsList;
 
-    return carsList;
+    const carsData = await fetchCarsData()
+    return carsData
+
   } catch (error) {
     throw error;
   }
