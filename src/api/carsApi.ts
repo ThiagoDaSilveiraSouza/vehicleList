@@ -1,26 +1,20 @@
+import axios from "axios";
 import { ICar } from "../interface";
 
 
-const baseURL = "https://wswork.com.br/"
+const baseURL = "http://localhost:3333/"
 
-const fetchCarsData = async (): Promise<ICar[]> => {
-  try {
-    const response = await fetch(`${baseURL}cars.json`, { mode: "no-cors", headers: { "Content-Type": "application/json", "accept-ranges": "bytes" } });
-    // if (!response.ok) {
-    //   throw new Error("Network response was not ok");
-    // }
-    const jsonResponse = await response.json()
-    return jsonResponse
-  } catch (error) {
-    throw error;
-  }
-};
+const carsParamsList = ["cars.json", "cars_by_brand.json"]
 
-const fetchCarsByBrandData = async (): Promise<ICar[]> => {
+const fetchdDataByParam = async (param: string) => {
+  const url = baseURL + param
   try {
-    const response = await fetch(`${baseURL}cars_by_brand.json`, { mode: "no-cors" });
-    const jsonResponse = await response.json()
-    return jsonResponse
+    const response = await axios.get<ICar>(url);
+    const data = response.data
+    if (response.status !== 200) {
+      throw new Error("Network response was not ok");
+    }
+    return data
   } catch (error) {
     throw error;
   }
@@ -28,15 +22,11 @@ const fetchCarsByBrandData = async (): Promise<ICar[]> => {
 
 export const carsApi = async () => {
   try {
-    // const [carsData, carsByBrandData] = await Promise.all([
-    //   fetchCarsData(),
-    //   fetchCarsByBrandData(),
-    // ]);
-    // const carsList = [...carsData, ...carsByBrandData];
-    // return carsList;
+    const promiseList = carsParamsList.map((currentUrl) => fetchdDataByParam(currentUrl))
 
-    const carsData = await fetchCarsData()
-    return carsData
+    const carsList = await Promise.all(promiseList);
+    console.log("carsList", carsList)
+    return carsList;
 
   } catch (error) {
     throw error;
