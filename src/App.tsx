@@ -7,6 +7,7 @@ import { Modal } from "./Components/Modal";
 
 function App() {
   const [carsList, setCarslist] = useState<ICar[]>([]);
+  const useAddProductModalIsOpen = useState(true);
 
   const updateCarList = async () => {
     try {
@@ -31,7 +32,7 @@ function App() {
         Listas de carros
       </Heading>
       <CarList carList={carsList} />
-      <Modal />
+      <Modal useModal={useAddProductModalIsOpen}></Modal>
     </>
   );
 }
