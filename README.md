@@ -79,3 +79,37 @@ ou
 ```bash
 yarn dev
 ```
+
+## Relatório de Problema e Solução - Objeto com Falta de Vírgula
+
+Durante o desenvolvimento do projeto, identifiquei um problema em um objeto JSON que estava sendo consumido no front-end. O objeto em questão continha uma falta de vírgula antes da propriedade "cor", o que resultou em um formato JSON inválido e causou erros ao tentar analisar o dado no front-end.
+
+### Problema Identificado
+
+Aqui está um exemplo simplificado do objeto com o problema:
+
+```json
+{
+    "id": 1,
+    "timestamp_cadastro": 1696539488,
+    "modelo_id": 12,
+    "ano": 2015,
+    "combustível": "FLEX",
+    "num_portas": 4"cor": "BEGE",
+    "nome_modelo": "ONIX PLUS",
+    "valor": 50.000
+}
+```
+Observe que a propriedade "cor" não possui uma vírgula antes dela. Isso torna o JSON inválido e causa erros na análise do dado no front-end.
+
+### Solução Implementada
+
+Para solucionar esse problema e garantir que o dado fosse consumido corretamente no front-end, realizei uma intervenção no proxy que estava fazendo a requisição à API. No proxy, identifiquei o problema e introduzi uma vírgula antes da propriedade "cor" para tornar o JSON válido. 
+
+Após essa correção no proxy, o dado passou a ser consumido corretamente no front-end, sem erros na análise do JSON.
+
+### Conclusão
+
+Identificar e resolver problemas de formatação de JSON é fundamental para garantir o correto funcionamento de um sistema. Neste caso, a intervenção no proxy permitiu que o dado fosse processado sem problemas no front-end, demonstrando a importância de uma abordagem proativa para solucionar problemas desse tipo.
+
+Espero que este relatório ajude a entender e documentar a solução aplicada para o problema encontrado no projeto.
