@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { ICar } from "./interface";
 import { carsApi } from "./api";
+import { CarList } from "./Components";
+import { Heading } from "@radix-ui/themes";
 
 function App() {
   const [carsList, setCarslist] = useState<ICar[]>([]);
@@ -19,10 +21,17 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(carsList);
+    // console.log(carsList);
   }, [carsList]);
 
-  return <></>;
+  return (
+    <>
+      <Heading align={"center"} size={"8"} style={{ margin: "25px 0" }}>
+        Listas de carros
+      </Heading>
+      <CarList carList={carsList} />
+    </>
+  );
 }
 
 export default App;
