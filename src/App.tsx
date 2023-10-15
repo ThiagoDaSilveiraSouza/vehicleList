@@ -3,6 +3,7 @@ import { ICar } from "./interface";
 import { carsApi } from "./api";
 import { CarList } from "./Components";
 import { Heading } from "@radix-ui/themes";
+import { Modal } from "./Components/Modal";
 
 function App() {
   const [carsList, setCarslist] = useState<ICar[]>([]);
@@ -30,6 +31,7 @@ function App() {
         Listas de carros
       </Heading>
       <CarList carList={carsList} />
+      <Modal />
     </>
   );
 }
