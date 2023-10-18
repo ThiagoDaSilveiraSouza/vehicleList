@@ -30,11 +30,11 @@ const ModalBackground = styled.div<modalStylesProps>`
 
 const ModalCard = styled.div<modalStylesProps>`
   position: absolute;
-  width: 280px;
+  min-width: 280px;
+  width: 400px;
   max-width: 90vw;
-  height: 300px;
+  height: 350px;
   max-height: 100vh;
-  padding: 20px;
   box-sizing: border-box;
   box-shadow: 0 0 3px 0 gray;
   background: white;

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ICar } from "../interface";
+import { ApiDataProps } from "../contexts";
 
 
 const baseURL = "http://localhost:3333/"
@@ -24,8 +25,10 @@ const fetchdDataByParam = async (param: string) => {
   }
 };
 
-export const carsApi = async () => {
+export const carsApi = async (context: ApiDataProps) => {
   try {
+    const { useCarList } = context;
+    const [_, setCarList] = useCarList;
     const promiseList = carsParamsList.map((currentUrl) => fetchdDataByParam(currentUrl))
 
     const listOfCarList = await Promise.all(promiseList);
@@ -33,7 +36,8 @@ export const carsApi = async () => {
       return [...joinList, ...currentCarList.cars]
     }, [] as ICar[])
 
-    return joinListOfCarList;
+    setCarList(joinListOfCarList);
+
   } catch (error) {
     throw error;
   }

@@ -1,0 +1,1 @@
+export type IFuel = "GASOLINA" | "ALCOOL" | "FLEX"
