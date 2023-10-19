@@ -10,6 +10,34 @@ interface CartListProps {
   carList: ICar[];
 }
 
+/**
+ * Componente CarList
+ *
+ * O componente `CarList` é uma lista de carros organizados por marca. Ele exibe uma lista de carros, agrupados por suas marcas correspondentes, em um layout de guias.
+ *
+ * @component
+ *
+ * @param {Object} props - As propriedades do componente.
+ * @param {ICar[]} props.carList - Uma lista de carros que deseja exibir, onde cada carro deve ter uma propriedade `marca`.
+ *
+ * @example
+ * // Importe o componente
+ * import { CarList } from "./Components";
+ *
+ * // Crie uma lista de carros
+ * const carList = [
+ *   { nome_modelo: "Carro A", marca: "Marca A" },
+ *   { nome_modelo: "Carro B", marca: "Marca B" },
+ *   { nome_modelo: "Carro C", marca: "Marca A" },
+ *   // ...
+ * ];
+ *
+ * // Renderize o componente
+ * <CarList carList={carList} />
+ *
+ * @returns {JSX.Element} Um componente React que exibe uma lista de carros organizados por marca.
+ */
+
 export const CarList = ({ carList }: CartListProps) => {
   const carsOrderedByBrand = orderCarsByBrand(carList, brandList);
   const brandsNamesList = Object.keys(carsOrderedByBrand).sort();

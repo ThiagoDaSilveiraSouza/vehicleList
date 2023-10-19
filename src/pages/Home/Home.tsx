@@ -10,7 +10,6 @@ export const Home = () => {
   const { data: carsList } = useCarList;
   const useAddProductModalIsOpen = useState(false);
   const [_, setProductModalIsOpen] = useAddProductModalIsOpen;
-
   return (
     <>
       <Heading align={"center"} size={"8"} style={{ margin: "25px 0" }}>
