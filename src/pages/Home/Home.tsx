@@ -8,7 +8,7 @@ import { PlusIcon } from "@radix-ui/react-icons";
 export const Home = () => {
   const { useCarList } = UseApiDataHook();
   const { data: carsList } = useCarList;
-  const useAddProductModalIsOpen = useState(true);
+  const useAddProductModalIsOpen = useState(false);
   const [_, setProductModalIsOpen] = useAddProductModalIsOpen;
 
   return (

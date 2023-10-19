@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { Modal } from "../../../../Components/Modal";
 import { UseApiDataHook } from "../../../../hooks";
 import { ICar } from "../../../../interface";
-// import { numericFormatter } from "react-number-format";
 import { Heading, Button, Flex, ScrollArea } from "@radix-ui/themes";
 import * as Form from "@radix-ui/react-form";
 import "./style.css";
@@ -10,9 +9,9 @@ import {
   formatToBRL,
   getTimestampOfNow,
   getYearList,
-  parseFromBRL,
   updatePropStateValue,
 } from "../../../../utils";
+import { getInputsHandlerChangeFunctions } from "./utils";
 
 interface AddCarModalProps {
   useModal: [boolean, Dispatch<SetStateAction<boolean>>];
@@ -28,7 +27,7 @@ const defaultValue = {
   cor: "",
   nome_modelo: "",
   timestamp_cadastro: 0,
-  valor: 2,
+  valor: 0.01,
 } as ICar;
 
 export const AddCarModal = ({ useModal }: AddCarModalProps) => {
@@ -37,67 +36,22 @@ export const AddCarModal = ({ useModal }: AddCarModalProps) => {
   const { useCarList } = UseApiDataHook();
   const { addData: addNewCar } = useCarList;
   const yearList = getYearList();
+  const {
+    colorInputHandlerChange,
+    doorNumberInputHandlerChange,
+    fuelSelectHandlerChange,
+    nameInputHandlerChange,
+    valueInputHandlerChange,
+    yearSelectHandlerChange,
+  } = getInputsHandlerChangeFunctions(setCurrentCar);
 
   const formHandleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const timeStamp = getTimestampOfNow();
-    updatePropStateValue<ICar>(
-      timeStamp.toString(),
-      "timestamp_cadastro",
-      setCurrentCar
-    );
+    updatePropStateValue<ICar>("timestamp_cadastro", timeStamp, setCurrentCar);
     addNewCar(currentCar);
     setCurrentCar(defaultValue);
     setModalIsOpen(false);
-  };
-
-  const nameInputHandlerChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value;
-    updatePropStateValue<ICar>(value, "nome_modelo", setCurrentCar);
-  };
-
-  const yearSelectHandlerChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const value = event.target.value;
-    updatePropStateValue<ICar>(value, "ano", setCurrentCar);
-  };
-
-  const fuelSelectHandlerChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const value = event.target.value;
-    updatePropStateValue<ICar>(value, "combustivel", setCurrentCar);
-  };
-
-  const colorInputHandlerChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value;
-    updatePropStateValue<ICar>(value, "cor", setCurrentCar);
-  };
-
-  const doorNumberInputHandlerChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value;
-    updatePropStateValue<ICar>(value, "num_portas", setCurrentCar);
-  };
-
-  const valueInputHandlerChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value;
-    const floatValue = parseFromBRL(value);
-    const brl = formatToBRL(floatValue);
-
-    console.log("brl: ", brl);
-    // console.log("value: ", value);
-    // console.log("floatValue: ", floatValue);
-
-    updatePropStateValue<ICar>(floatValue.toString(), "valor", setCurrentCar);
   };
 
   return (

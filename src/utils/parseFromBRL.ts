@@ -1,4 +1,8 @@
 export const parseFromBRL = (brlValue: string): number => {
-  const numericValue = parseFloat(brlValue.replace(/[^\d,.-]/g, '').padStart(2, "0").replace(',', '.'));
-  return numericValue;
+  const formatedValue = brlValue
+    .replace(/[^\d]/g, "")
+    .replace(/(\d)(?=\d{2}$)/g, "$1.");
+  const floatvalue = parseFloat(formatedValue || "0");
+
+  return floatvalue
 }
